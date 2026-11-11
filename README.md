@@ -29,7 +29,7 @@ Keys are never committed. Store them as encrypted repository secrets instead:
    | --- | --- |
    | `STRAVA_CLIENT_ID` | Client ID from <https://www.strava.com/settings/api> |
    | `STRAVA_CLIENT_SECRET` | Client Secret from the same page |
-   | `STRAVA_REFRESH_TOKEN` | `refresh_token` from `.strava-tokens.json` after you connect once locally |
+   | `STRAVA_CLIENT_TOKEN` | `refresh_token` from `.strava-tokens.json` after you connect once locally |
 
 3. Go to **Actions** → **Strava training summary** → **Run workflow** to check they work.
    The summary appears on the run's page.
