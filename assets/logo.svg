@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#1F2A44"/>
+  <path d="M96 360 L176 200 L236 300 L296 170 L416 360" fill="none" stroke="#FFB020" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="256" y="440" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#FFFFFF" letter-spacing="4">MARATON</text>
+  <text x="256" y="130" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="56" font-weight="800" fill="#FFB020">42.2</text>
+</svg>
