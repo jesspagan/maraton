@@ -1,0 +1,36 @@
+name: Strava training summary
+
+# Run manually from the Actions tab. Uses the repository secrets
+# STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET and STRAVA_REFRESH_TOKEN.
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: Number of days to summarize
+        default: '28'
+
+permissions:
+  contents: read
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch summary from Strava
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+          DAYS: ${{ inputs.days }}
+        run: |
+          node src/summary.js "$DAYS" > summary.json
+          {
+            echo "## Running summary (last $DAYS days)"
+            echo '```json'
+            cat summary.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

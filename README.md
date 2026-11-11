@@ -18,6 +18,22 @@ Zero dependencies — just Node.js 20.6+.
 4. Click **Connect with Strava** and approve access. Tokens are saved to
    `.strava-tokens.json` (git-ignored) and refreshed automatically when they expire.
 
+## Storing your keys in GitHub
+
+Keys are never committed. Store them as encrypted repository secrets instead:
+
+1. On GitHub, open the repo → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**.
+2. Add these three secrets:
+
+   | Name | Value |
+   | --- | --- |
+   | `STRAVA_CLIENT_ID` | Client ID from <https://www.strava.com/settings/api> |
+   | `STRAVA_CLIENT_SECRET` | Client Secret from the same page |
+   | `STRAVA_REFRESH_TOKEN` | `refresh_token` from `.strava-tokens.json` after you connect once locally |
+
+3. Go to **Actions** → **Strava training summary** → **Run workflow** to check they work.
+   The summary appears on the run's page.
+
 ## Endpoints
 
 | Method | Path | Description |

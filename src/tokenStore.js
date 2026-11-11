@@ -1,17 +1,24 @@
 import { readFile, writeFile, rm } from 'node:fs/promises';
 
-/** Persists Strava OAuth tokens to a local JSON file (single-user). */
+/**
+ * Persists Strava OAuth tokens to a local JSON file (single-user).
+ *
+ * If the file doesn't exist yet but a refresh token is provided (e.g. from the
+ * STRAVA_REFRESH_TOKEN GitHub secret), it is used to bootstrap: the access
+ * token is treated as expired, so the client fetches a fresh one on first use.
+ */
 export class FileTokenStore {
-  constructor(path = '.strava-tokens.json') {
+  constructor(path = '.strava-tokens.json', { refreshToken } = {}) {
     this.path = path;
+    this.refreshToken = refreshToken;
   }
 
   async get() {
     try {
       return JSON.parse(await readFile(this.path, 'utf8'));
     } catch (err) {
-      if (err.code === 'ENOENT') return null;
-      throw err;
+      if (err.code !== 'ENOENT') throw err;
+      return this.refreshToken ? { access_token: null, refresh_token: this.refreshToken, expires_at: 0 } : null;
     }
   }
 
@@ -20,6 +27,7 @@ export class FileTokenStore {
   }
 
   async clear() {
+    this.refreshToken = undefined;
     await rm(this.path, { force: true });
   }
 }

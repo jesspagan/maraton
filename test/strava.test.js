@@ -124,3 +124,18 @@ test('OAuth flow over HTTP: state check, callback, API proxy', async () => {
     server.close();
   }
 });
+
+test('FileTokenStore bootstraps from a refresh token when no file exists', async () => {
+  const { FileTokenStore } = await import('../src/tokenStore.js');
+  const store = new FileTokenStore('/nonexistent-dir/tokens.json', { refreshToken: 'seed' });
+  const fetch = mockFetch([
+    ['/oauth/token', (_u, init) => {
+      assert.equal(new URLSearchParams(init.body).get('refresh_token'), 'seed');
+      return { body: { access_token: 'fresh', refresh_token: 'seed', expires_at: 99999 } };
+    }],
+  ]);
+  store.set = async (t) => { store.saved = t; };
+  const c = new StravaClient({ ...base, tokenStore: store, fetch, now: () => 0 });
+  assert.equal(await c.getAccessToken(), 'fresh');
+  assert.equal(store.saved.access_token, 'fresh');
+});
