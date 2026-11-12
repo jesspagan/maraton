@@ -1,22 +1,23 @@
 # maraton
 
 Marathon training helper connected to the [Strava API](https://developers.strava.com/docs/reference/).
-Zero dependencies — just Node.js 20.6+.
+Zero dependencies — just Node.js 22+.
 
 ## Setup
 
 1. Create a Strava API application at <https://www.strava.com/settings/api>.
    Set **Authorization Callback Domain** to `localhost`.
-2. Copy the env template and fill in your Client ID and Client Secret:
+2. Clone and run the setup script:
    ```sh
-   cp .env.example .env
+   git clone https://github.com/jesspagan/maraton.git
+   cd maraton
+   npm run setup
    ```
-3. Start the server and open <http://localhost:3000>:
-   ```sh
-   npm start
-   ```
-4. Click **Connect with Strava** and approve access. Tokens are saved to
+   It checks your Node.js version, asks for your Client ID and Client Secret
+   (saved to `.env`, which git ignores), runs the tests and can start the app.
+3. Open <http://localhost:3000> and click **Connect with Strava**. Tokens are saved to
    `.strava-tokens.json` (git-ignored) and refreshed automatically when they expire.
+4. Run `npm run token` to print the refresh token for the GitHub secret below.
 
 ## Storing your keys in GitHub
 
