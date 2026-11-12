@@ -1,7 +1,7 @@
 name: Strava training summary
 
 # Run manually from the Actions tab. Uses the repository secrets
-# STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET and STRAVA_CLIENT_TOKEN (a refresh token).
+# STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET and STRAVA_CLIENT_REFRESH_TOKEN (a refresh token).
 on:
   workflow_dispatch:
     inputs:
@@ -24,7 +24,7 @@ jobs:
         env:
           STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
           STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
-          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_CLIENT_TOKEN }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_CLIENT_REFRESH_TOKEN }}
           DAYS: ${{ inputs.days }}
         run: |
           node src/summary.js "$DAYS" > summary.json
