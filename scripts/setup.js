@@ -2,6 +2,7 @@
 // - checks the Node.js version
 // - uses your Strava keys from GitHub secrets when running in a Codespace,
 //   otherwise creates .env and asks for your Strava Client ID / Secret
+// - turns on the git hook that blocks committing keys
 // - runs the tests
 // - optionally starts the app so you can click "Connect with Strava"
 import { existsSync, readFileSync, writeFileSync, copyFileSync, chmodSync } from 'node:fs';
@@ -79,6 +80,11 @@ if (major < 22) {
   process.exit(1);
 }
 console.log(green(`Node.js ${process.versions.node} ✓`));
+
+// Turn on the git hook that refuses commits containing Strava keys or tokens.
+const hook = spawnSync('git', ['config', 'core.hooksPath', '.githooks'], { cwd: root });
+if (hook.status === 0) console.log(green('Commit safety check on ✓ (commits with Strava keys or tokens are blocked)'));
+else console.log(yellow('Could not turn on the commit safety check (is this a git clone?).'));
 
 // 2. Strava keys
 step(2, 'Configuring Strava keys');

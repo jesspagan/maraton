@@ -12,8 +12,14 @@
       "description": "Refresh token from `npm run token` (lets the app reach Strava without logging in)"
     }
   },
-  "forwardPorts": [3000],
+  "forwardPorts": [
+    3000
+  ],
   "portsAttributes": {
-    "3000": { "label": "Maraton", "onAutoForward": "notify" }
-  }
+    "3000": {
+      "label": "Maraton",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "git config core.hooksPath .githooks"
 }

@@ -58,6 +58,10 @@ Keys are never committed. Store them as encrypted repository secrets instead:
 - Keep the Codespace port **Private** (the default). If it's made Public, anyone with the URL can
   read your Strava data through `/api/*`.
 - `.env` and `.strava-tokens.json` are git-ignored — never commit them.
+- **Keys can't be committed.** A git hook (turned on by `npm run setup`, or automatically in a
+  Codespace) refuses any commit containing a Strava Client ID, Client Secret, access/refresh
+  token, `.env` or token file. CI runs the same check on every push (`npm run check-secrets`).
+  If a real key ever gets out, reset it at <https://www.strava.com/settings/api>.
 
 ## Endpoints
 
