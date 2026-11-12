@@ -47,8 +47,17 @@ Keys are never committed. Store them as encrypted repository secrets instead:
    | `STRAVA_CLIENT_SECRET` | Client Secret from the same page |
    | `STRAVA_CLIENT_REFRESH_TOKEN` | `refresh_token` from `.strava-tokens.json` after you connect once locally |
 
-3. Go to **Actions** → **Strava training summary** → **Run workflow** to check they work.
-   The summary appears on the run's page.
+3. Go to **Actions** → **Strava connection check** → **Run workflow** to check they work.
+   Because this repo is public, the run only says whether the connection works — it never
+   shows your activities. Use `npm run summary` in your Codespace or on your computer to see them.
+
+## Privacy (this repo is public)
+
+- Secrets are encrypted by GitHub and never shown in logs or to visitors. Workflows triggered
+  from forks don't receive them.
+- Keep the Codespace port **Private** (the default). If it's made Public, anyone with the URL can
+  read your Strava data through `/api/*`.
+- `.env` and `.strava-tokens.json` are git-ignored — never commit them.
 
 ## Endpoints
 
