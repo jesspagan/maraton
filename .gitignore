@@ -1,0 +1,7 @@
+node_modules/
+# Credentials: never commit these
+.env
+.env.*
+!.env.example
+.strava-tokens.json
+*tokens.json

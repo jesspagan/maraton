@@ -1,0 +1,35 @@
+name: Strava connection check
+
+# Run manually from the Actions tab. Uses the repository secrets
+# STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET and STRAVA_CLIENT_REFRESH_TOKEN.
+#
+# This repo is public, so anyone can read the logs and summary of this run.
+# It therefore only reports whether the connection works, never your data.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check Strava connection
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_CLIENT_REFRESH_TOKEN: ${{ secrets.STRAVA_CLIENT_REFRESH_TOKEN }}
+        run: |
+          if node src/summary.js 7 > /dev/null 2> error.log; then
+            echo "✅ Connected to Strava: keys and refresh token work." | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            # Only show the HTTP status, not the response body.
+            status=$(grep -oE 'failed with [0-9]+' error.log | head -1)
+            echo "❌ Could not reach Strava (${status:-unknown error}). Check the three STRAVA_* secrets." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
