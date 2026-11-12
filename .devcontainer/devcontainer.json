@@ -1,0 +1,19 @@
+{
+  "name": "maraton",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "secrets": {
+    "STRAVA_CLIENT_ID": {
+      "description": "Client ID from https://www.strava.com/settings/api"
+    },
+    "STRAVA_CLIENT_SECRET": {
+      "description": "Client Secret from https://www.strava.com/settings/api"
+    },
+    "STRAVA_CLIENT_REFRESH_TOKEN": {
+      "description": "Refresh token from `npm run token` (lets the app reach Strava without logging in)"
+    }
+  },
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "Maraton", "onAutoForward": "notify" }
+  }
+}

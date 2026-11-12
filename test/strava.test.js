@@ -139,3 +139,15 @@ test('FileTokenStore bootstraps from a refresh token when no file exists', async
   assert.equal(await c.getAccessToken(), 'fresh');
   assert.equal(store.saved.access_token, 'fresh');
 });
+
+test('uses the Codespaces forwarded URL instead of localhost for the OAuth redirect', async () => {
+  const { stravaFromEnv, appBaseUrl } = await import('../src/config.js');
+  const env = {
+    STRAVA_CLIENT_ID: '1', STRAVA_CLIENT_SECRET: 's',
+    STRAVA_REDIRECT_URI: 'http://localhost:3000/auth/strava/callback',
+    CODESPACE_NAME: 'fuzzy-pancake-abc', GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN: 'app.github.dev',
+  };
+  assert.equal(appBaseUrl(env), 'https://fuzzy-pancake-abc-3000.app.github.dev');
+  assert.equal(stravaFromEnv(env).redirectUri, 'https://fuzzy-pancake-abc-3000.app.github.dev/auth/strava/callback');
+  assert.equal(stravaFromEnv({ ...env, CODESPACE_NAME: undefined }).redirectUri, 'http://localhost:3000/auth/strava/callback');
+});

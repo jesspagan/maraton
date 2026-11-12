@@ -19,6 +19,21 @@ Zero dependencies — just Node.js 22+.
    `.strava-tokens.json` (git-ignored) and refreshed automatically when they expire.
 4. Run `npm run token` to print the refresh token for the GitHub secret below.
 
+## Using a GitHub Codespace
+
+Codespaces can read your keys from GitHub, so you don't have to type them:
+
+1. Add `STRAVA_CLIENT_ID`, `STRAVA_CLIENT_SECRET` and (once you have it) `STRAVA_CLIENT_REFRESH_TOKEN`
+   as **Codespaces** secrets: repo → **Settings** → **Secrets and variables** → **Codespaces**.
+   Secrets under **Actions** are *not* visible to Codespaces — add them in both places.
+2. Restart the Codespace (or create a new one) so it picks them up.
+3. Run `npm run setup`. It detects the keys and skips the questions.
+
+In a browser Codespace the app lives at `https://<codespace-name>-3000.app.github.dev`, not
+`localhost`. Until you have a refresh token, set Strava's **Authorization Callback Domain** to
+that host (`npm run setup` prints it) so the **Connect with Strava** login can return to the app.
+Once `STRAVA_CLIENT_REFRESH_TOKEN` is set, no login is needed.
+
 ## Storing your keys in GitHub
 
 Keys are never committed. Store them as encrypted repository secrets instead:

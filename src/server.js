@@ -1,9 +1,9 @@
 import { createServer } from 'node:http';
 import { createApp } from './app.js';
-import { stravaFromEnv } from './config.js';
+import { appBaseUrl, stravaFromEnv } from './config.js';
 
 const port = Number(process.env.PORT) || 3000;
 
 createServer(createApp(stravaFromEnv())).listen(port, () => {
-  console.log(`Maraton running at http://localhost:${port}`);
+  console.log(`Maraton running at ${appBaseUrl()}`);
 });
